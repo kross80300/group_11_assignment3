@@ -1,0 +1,20 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.cache
+*.db
+*.log
+
+# Visual Studio stuff
+.vs/
+*.vcxproj.user
+
+# MonoGame content pipeline intermediate files
+*.mgcb.cache
+*.xnb
+
+# OS-specific
+.DS_Store
+Thumbs.db
