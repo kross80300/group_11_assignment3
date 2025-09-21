@@ -103,15 +103,46 @@ public class Game1 : Game
 
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
+
         if (_showWordCloud)
         {
-            // Show word cloud
+            // grid start position
+            int x = 50;
+            int y = 50;
+            int maxWidth = 600; // wrap words before the right edge
+
             foreach (var (word, pos, color) in _wordCloud)
-                _spriteBatch.DrawString(_font, word, pos, color);
+            {
+                // use word frequency (fallback to 1 if not found)
+                int freq = 1;
+                foreach (var (f, count) in _frequencyData)
+                {
+                    if (f > 0) { freq = f; break; }
+                }
+
+                // scale text based on frequency
+                float scale = Math.Clamp(freq / 10f, 0.5f, 3f);
+
+                // measure word size
+                Vector2 size = _font.MeasureString(word) * scale;
+
+                // if the word would go past screen edge, wrap to next row
+                if (x + size.X > maxWidth)
+                {
+                    x = 50;
+                    y += (int)(size.Y + 20);
+                }
+
+                // draw the word
+                _spriteBatch.DrawString(_font, word, new Vector2(x, y), color,
+                    0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
+                // move x for next word
+                x += (int)(size.X + 20);
+            }
         }
         else
         {
-            // Show frequency data
             int x = 50;
             int y = 50;
             _spriteBatch.DrawString(_font, "Word Frequencies:", new Vector2(x, y), Color.Black);
@@ -119,12 +150,13 @@ public class Game1 : Game
 
             foreach (var (freq, count) in _frequencyData)
             {
-                string line = $"{freq} → {count}";
+                string line = $"{freq} : {count}";
                 _spriteBatch.DrawString(_font, line, new Vector2(x, y), Color.Black);
                 y += 20;
                 if (y > 550) break; // stop if off-screen
             }
         }
+
 
         _spriteBatch.End();
 
