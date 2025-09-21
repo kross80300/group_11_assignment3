@@ -1,60 +1,33 @@
+from collections import defaultdict
 import re
-from pathlib import Path
-import os
-import string
-from collections import Counter, defaultdict
-
-def load_file():
-    # Make path relative to this test file's directory
-    path = "frankenstein.txt"
-    with open(path, "r", encoding="utf-8") as f:
-        return f.read()
-
-
-
-def extract_words(text):
-    """Return list of words from text and changes to lowercase."""
-    text = text.lower()
-    words = re.compile(r"[a-z]+")
-    return [w for w in words.findall(text)]
-
-def allwords(words):
-    """Writes all words to allwords.txt."""
-    with open("allwords.txt", "w") as f:
-        for w in words:
-            f.write(w + "\n")
-
-def uniquewords(words):
-    """Writes unique words to uniquewords.txt."""
-    count = Counter(words)
-    with open("uniquewords.txt", "w") as f:
-        for w, count in sorted(count.items()):
-            if count == 1:
-                f.write(w + "\n")
-
-def wordfrequency(words):
-    """Writes word frequency distribution to wordfrequency.txt."""
-    count = Counter(words)
-    freqs = defaultdict(int)
-    for w, c in count.items():
-        freqs[c] += 1
-    with open("wordfrequency.txt", "w") as f:
-        for freq in sorted(freqs.keys()):
-            f.write(f"{freq} {freqs[freq]}\n")
 
 def main():
-    #print("Running...") prints for debugging
-    #print("Working dir:", os.getcwd()) prints working directory for debugging
-    text = load_file()
-    #print("The text:" + text)
-    words = extract_words(text)
-    #print("The words:" + str(words))
-    allwords(words)
-    uniquewords(words)
-    wordfrequency(words)
 
+    with open("frankenstein.txt", "r") as file:
+        text = file.read().lower()
 
+    words = re.findall(r"[a-z]+", text)
 
+    with open("allwords.txt", "w") as file:
+        for word in words:
+            file.write(word+"\n")
+
+    uniqueWords = defaultdict(int)
+    for word in words:
+        uniqueWords[word] +=1
+
+    with open("uniquewords.txt", "w") as file:
+        for word, count in uniqueWords.items():
+            if count==1:
+                file.write(word + "\n")
+
+    frequency = defaultdict(int)
+    for count in uniqueWords.values():
+        frequency[count] +=1
+
+    with open("wordfrequency.txt", "w") as file:
+        for freqVal, count in sorted(frequency.items()):
+            file.write(f"{freqVal}: {count}\n")
 
 if __name__ == "__main__":
     main()
