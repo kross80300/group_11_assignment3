@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "group_11_assignment3", "group_11_assignment3.csproj", "{2FFFF8B5-C1D1-4FB3-8A53-891154B554D7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "A3_NovelVisualization", "A3_NovelVisualization", "{6C965049-4381-4937-B77B-322C75DBD43D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,8 @@ Global
 		{2FFFF8B5-C1D1-4FB3-8A53-891154B554D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FFFF8B5-C1D1-4FB3-8A53-891154B554D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FFFF8B5-C1D1-4FB3-8A53-891154B554D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2FFFF8B5-C1D1-4FB3-8A53-891154B554D7} = {6C965049-4381-4937-B77B-322C75DBD43D}
 	EndGlobalSection
 EndGlobal
