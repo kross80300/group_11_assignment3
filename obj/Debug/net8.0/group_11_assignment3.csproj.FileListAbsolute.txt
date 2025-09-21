@@ -29,3 +29,4 @@ C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_
 C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_assignment3\obj\Debug\net8.0\group_11_assignment3.pdb
 C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_assignment3\obj\Debug\net8.0\group_11_assignment3.genruntimeconfig.cache
 C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_assignment3\obj\Debug\net8.0\ref\group_11_assignment3.dll
+C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_assignment3\obj\Debug\net8.0\group_11_assignment3.sourcelink.json
