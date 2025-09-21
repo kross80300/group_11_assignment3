@@ -16,7 +16,7 @@ public class Game1 : Game
     private Texture2D _graph;
     private string[] _words;
     private Random _rng = new Random();
-    
+    private List<(string word, Vector2 pos, Color color)> _wordCloud = new ();
     private List<(int freq, int count)> _frequencyData = new List<(int, int)>();
     private bool _showWordCloud = true;
     private KeyboardState _prevKeyboardState;
@@ -49,6 +49,14 @@ public class Game1 : Game
         _graph.SetData(new[] { Color.White });
 
         _words = File.ReadAllLines("uniquewords.txt");
+
+        for (int i = 0; i < 30 && i < _words.Length; i++)
+        {
+            string word = _words[_rng.Next(_words.Length)];
+            Vector2 pos = new Vector2(_rng.Next(700), _rng.Next(600));
+            Color color = new Color(_rng.Next(255), _rng.Next(255), _rng.Next(255));
+            _wordCloud.Add((word, pos, color));
+        }
 
         if (File.Exists("wordfrequency.txt"))
         {
@@ -95,15 +103,29 @@ public class Game1 : Game
 
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
-
-        for (int i = 0; i < 30 && i < _words.Length; i++)
+        if (_showWordCloud)
         {
-            string word = _words[_rng.Next(_words.Length)];
-            Vector2 pos = new Vector2(_rng.Next(700), _rng.Next(600));
-            Color color = new Color(_rng.Next(255), _rng.Next(255), _rng.Next(255));
-
-            _spriteBatch.DrawString(_font, word, pos, color);
+            // Show word cloud
+            foreach (var (word, pos, color) in _wordCloud)
+                _spriteBatch.DrawString(_font, word, pos, color);
         }
+        else
+        {
+            // Show frequency data
+            int x = 50;
+            int y = 50;
+            _spriteBatch.DrawString(_font, "Word Frequencies:", new Vector2(x, y), Color.Black);
+            y += 30;
+
+            foreach (var (freq, count) in _frequencyData)
+            {
+                string line = $"{freq} → {count}";
+                _spriteBatch.DrawString(_font, line, new Vector2(x, y), Color.Black);
+                y += 20;
+                if (y > 550) break; // stop if off-screen
+            }
+        }
+
         _spriteBatch.End();
 
         base.Draw(gameTime);

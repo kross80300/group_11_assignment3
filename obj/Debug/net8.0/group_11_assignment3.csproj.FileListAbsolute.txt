@@ -30,3 +30,6 @@ C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_
 C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_assignment3\obj\Debug\net8.0\group_11_assignment3.genruntimeconfig.cache
 C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_assignment3\obj\Debug\net8.0\ref\group_11_assignment3.dll
 C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_assignment3\obj\Debug\net8.0\group_11_assignment3.sourcelink.json
+C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_assignment3\bin\Debug\net8.0\Content\font\DripOctober.xnb
+C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_assignment3\bin\Debug\net8.0\uniquewords.txt
+C:\Users\kathe\OneDrive\Desktop\school\cs324e\Assignments\Assignment 3\group_11_assignment3\bin\Debug\net8.0\wordfrequency.txt
