@@ -108,14 +108,14 @@ public class Game1 : Game
 
         if (_showWordCloud)
         {
-            // grid start position
+            
             int x = 50;
             int y = 50;
-            int maxWidth = 600; // wrap words before the right edge
+            int maxWidth = 600; 
 
             foreach (var (word, pos, color) in _wordCloud)
             {
-                // use word frequency (fallback to 1 if not found)
+
                 int freq = 1;
                 foreach (var (f, count) in _frequencyData)
                 {
@@ -126,24 +126,20 @@ public class Game1 : Game
                     }
                 }
 
-                // scale text based on frequency
                 float scale = Math.Clamp(freq / 10f, 0.5f, 3f);
 
-                // measure word size
+ 
                 Vector2 size = _font.MeasureString(word) * scale;
-
-                // if the word would go past screen edge, wrap to next row
+                
                 if (x + size.X > maxWidth)
                 {
                     x = 50;
                     y += (int)(size.Y + 20);
                 }
 
-                // draw the word
                 _spriteBatch.DrawString(_font, word, new Vector2(x, y), color,
                     0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
-                // move x for next word
                 x += (int)(size.X + 20);
             }
         }
@@ -152,34 +148,33 @@ public class Game1 : Game
             _spriteBatch.DrawString(_font, "WORD FREQUENCIES", new Vector2(20, 20), Color.Black);
 
             int startX = 50;
-            int startY = GraphicsDevice.Viewport.Height - 50; // bottom of screen
+            int startY = GraphicsDevice.Viewport.Height - 50;
             int barWidth = 15;
             int spacing = 2;
-
-// Get max frequency for scaling
+            
             int maxFreq = _frequencyData.Max(fd => fd.count);
-            float scale = 300f / maxFreq; // tallest bar = 300px
+            float scale = 300f / maxFreq;
 
-            for (int i = 0; i < _frequencyData.Count && i < 50; i++) // show top 50
+            for (int i = 0; i < _frequencyData.Count && i < 50; i++)
             {
                 int freq = _frequencyData[i].count;
                 int barHeight = (int)(freq * scale);
 
-                // Bar rectangle, aligned bottom
+                
                 Rectangle bar = new Rectangle(
                     startX + i * (barWidth + spacing),
                     startY - barHeight,
                     barWidth,
                     barHeight);
 
-                // Black outline with white fill (like your screenshot)
+                
                 _spriteBatch.Draw(_graph, bar, Color.White);
-                _spriteBatch.Draw(_graph, new Rectangle(bar.X, bar.Y, bar.Width, 1), Color.Black); // top border
+                _spriteBatch.Draw(_graph, new Rectangle(bar.X, bar.Y, bar.Width, 1), Color.Black);
                 _spriteBatch.Draw(_graph, new Rectangle(bar.X, bar.Bottom - 1, bar.Width, 1),
-                    Color.Black); // bottom border
-                _spriteBatch.Draw(_graph, new Rectangle(bar.X, bar.Y, 1, bar.Height), Color.Black); // left border
+                    Color.Black);
+                _spriteBatch.Draw(_graph, new Rectangle(bar.X, bar.Y, 1, bar.Height), Color.Black);
                 _spriteBatch.Draw(_graph, new Rectangle(bar.Right - 1, bar.Y, 1, bar.Height),
-                    Color.Black); // right border
+                    Color.Black);
             }
         }
 
