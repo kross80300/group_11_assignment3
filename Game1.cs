@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,11 +17,12 @@ public class Game1 : Game
     private Texture2D _graph;
     private string[] _words;
     private Random _rng = new Random();
-    private List<(string word, Vector2 pos, Color color)> _wordCloud = new ();
+    private List<(string word, Vector2 pos, Color color)> _wordCloud = new();
     private List<(int freq, int count)> _frequencyData = new List<(int, int)>();
     private bool _showWordCloud = true;
+    private readonly Color[] _palette = { Color.ForestGreen, Color.MediumPurple, Color.Black };
     private KeyboardState _prevKeyboardState;
-    
+
 
     public Game1()
     {
@@ -54,7 +56,7 @@ public class Game1 : Game
         {
             string word = _words[_rng.Next(_words.Length)];
             Vector2 pos = new Vector2(_rng.Next(700), _rng.Next(600));
-            Color color = new Color(_rng.Next(255), _rng.Next(255), _rng.Next(255));
+            Color color = _palette[_rng.Next(_palette.Length)];
             _wordCloud.Add((word, pos, color));
         }
 
@@ -83,7 +85,7 @@ public class Game1 : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
             Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-        
+
         var keyboardState = Keyboard.GetState();
 
         // Toggle on Enter press (not hold)
@@ -99,7 +101,7 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.White);
 
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
@@ -117,7 +119,11 @@ public class Game1 : Game
                 int freq = 1;
                 foreach (var (f, count) in _frequencyData)
                 {
-                    if (f > 0) { freq = f; break; }
+                    if (f > 0)
+                    {
+                        freq = f;
+                        break;
+                    }
                 }
 
                 // scale text based on frequency
@@ -143,25 +149,42 @@ public class Game1 : Game
         }
         else
         {
-            int x = 50;
-            int y = 50;
-            _spriteBatch.DrawString(_font, "Word Frequencies:", new Vector2(x, y), Color.Black);
-            y += 30;
+            _spriteBatch.DrawString(_font, "WORD FREQUENCIES", new Vector2(20, 20), Color.Black);
 
-            foreach (var (freq, count) in _frequencyData)
+            int startX = 50;
+            int startY = GraphicsDevice.Viewport.Height - 50; // bottom of screen
+            int barWidth = 15;
+            int spacing = 2;
+
+// Get max frequency for scaling
+            int maxFreq = _frequencyData.Max(fd => fd.count);
+            float scale = 300f / maxFreq; // tallest bar = 300px
+
+            for (int i = 0; i < _frequencyData.Count && i < 50; i++) // show top 50
             {
-                string line = $"{freq} : {count}";
-                _spriteBatch.DrawString(_font, line, new Vector2(x, y), Color.Black);
-                y += 20;
-                if (y > 550) break; // stop if off-screen
+                int freq = _frequencyData[i].count;
+                int barHeight = (int)(freq * scale);
+
+                // Bar rectangle, aligned bottom
+                Rectangle bar = new Rectangle(
+                    startX + i * (barWidth + spacing),
+                    startY - barHeight,
+                    barWidth,
+                    barHeight);
+
+                // Black outline with white fill (like your screenshot)
+                _spriteBatch.Draw(_graph, bar, Color.White);
+                _spriteBatch.Draw(_graph, new Rectangle(bar.X, bar.Y, bar.Width, 1), Color.Black); // top border
+                _spriteBatch.Draw(_graph, new Rectangle(bar.X, bar.Bottom - 1, bar.Width, 1),
+                    Color.Black); // bottom border
+                _spriteBatch.Draw(_graph, new Rectangle(bar.X, bar.Y, 1, bar.Height), Color.Black); // left border
+                _spriteBatch.Draw(_graph, new Rectangle(bar.Right - 1, bar.Y, 1, bar.Height),
+                    Color.Black); // right border
             }
         }
 
-
         _spriteBatch.End();
 
-        base.Draw(gameTime);
+            base.Draw(gameTime);
+        }
     }
-
-    
-}
